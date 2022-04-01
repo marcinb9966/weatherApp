@@ -5,16 +5,16 @@ import {
   RouterStateSnapshot,
   Router
 } from '@angular/router';
-import { LoginService } from 'src/app/pages/login/login.service';
+import { ApiService } from '../services/api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private loginService: LoginService, private router: Router) {}
+  constructor(private api: ApiService, private router: Router) {}
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (!this.loginService.state) {
+    if (!this.api.state) {
         this.router.navigateByUrl('');
         return false;
     } else {

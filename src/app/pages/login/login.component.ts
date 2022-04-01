@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { catchError, tap, throwError } from 'rxjs';
-import { LoginService } from './login.service';
+import { ApiService } from 'src/app/core/services/api.service';
+import { LocalizationService } from 'src/app/core/services/localization.service';
 /**
  * Komponent Logowania przy pomocy WEATHER API KEY
  */
@@ -23,11 +24,11 @@ export class LoginComponent implements OnInit {
   /** Komunikat błedu */
   errorMsg: string;
 
-  constructor(private fb: FormBuilder, private loginService: LoginService, private router: Router) {
+  constructor(private fb: FormBuilder, private localization: LocalizationService, private api: ApiService, private router: Router) {
   }
 
   ngOnInit(): void {
-    this.loginService.getCurrentLocation()
+    this.localization.getCurrentLocation()
       .pipe(
         tap((coords) => {
           this.latitude = coords.latitude
@@ -45,7 +46,7 @@ export class LoginComponent implements OnInit {
    */
   sumbitWeatherKey(): void {
     if (this.weatherApiForm.dirty && this.weatherApiForm.valid && this.weatherApiForm.value.apiKey && this.longitude && this.latitude) {
-      this.loginService.getWeather(this.longitude, this.latitude, this.weatherApiForm.value.apiKey).pipe(
+      this.api.getWeather(this.longitude, this.latitude, this.weatherApiForm.value.apiKey).pipe(
         catchError((err) => {
           if (err.status === 401) {
             return throwError(() => new Error('Niepoprawny API KEY'));
@@ -53,7 +54,7 @@ export class LoginComponent implements OnInit {
           return throwError(() => new Error('Niespodziewany błąd'));
         })
       ).subscribe({
-        next: (e) => this.loginService.state = e,
+        next: (e) => this.api.state = e,
         error: (e) => {
           this.errorMsg = e.message
           this.show = true;

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Weather } from 'src/app/core/models/weather';
-import { LoginService } from '../login/login.service';
+import { ApiService } from 'src/app/core/services/api.service';
 
 @Component({
   selector: 'app-home',
@@ -12,10 +12,10 @@ export class HomeComponent implements OnInit {
  /** Przekazane dane z api */
   state: Weather;
 
-  constructor(private loginService: LoginService) { }
+  constructor(private api: ApiService) { }
 
   ngOnInit(): void {
-    this.state = this.loginService.state;
+    this.state = this.api.state;
   }
 
 }
