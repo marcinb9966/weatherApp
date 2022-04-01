@@ -1,0 +1,26 @@
+<div class="text-center relative overflow-hidden bg-no-repeat bg-cover h-96 lg:h-screen"
+    style="background-image: url('../../assets/cool-background.svg')">
+    <div class="md:h-screen  relative flex flex-col justify-center items-center">
+        <div class="rounded-lg md:border md:border-gray-300 bg-white md:shadow-lg shadow-none p-10">
+            <form [formGroup]="weatherApiForm">
+                <div class="mb-4">
+                    <label class="block text-grey-darker text-sm font-light mb-5 " for="apiKey">
+                        Wprowadź Weather API KEY
+                    </label>
+                    <input
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker font-extralight"
+                        type="text" placeholder="eg. f53fc6cd12ee4ce9a0164547113100" formControlName="apiKey">
+                </div>
+                <div class="flex items-center justify-center">
+                    <button type="submit" [disabled]="!weatherApiForm.valid"
+                        class="bg-black hover:bg-blue-dark text-white font-bold py-2 px-4 rounded" type="button"
+                        (click)="sumbitWeatherKey(); $event.stopPropagation()">
+                        Dalej
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <app-modal *ngIf="show" (show)="show = $event" [errorMsg]="errorMsg"
+        [modalData]="{ title: 'Weather', description: 'Nie powiodło się pobranie aktualnej pogody' }"></app-modal>
+</div>

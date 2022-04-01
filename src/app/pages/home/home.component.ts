@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Weather } from 'src/app/core/models/weather';
 import { LoginService } from '../login/login.service';
 
 @Component({
@@ -7,7 +8,9 @@ import { LoginService } from '../login/login.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  state: any;
+
+ /** Przekazane dane z api */
+  state: Weather;
 
   constructor(private loginService: LoginService) { }
 

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Weather } from 'src/app/core/models/weather';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,8 @@ export class LoginService {
     weatherApi: (long: number, lat: number, key: string) => `http://api.weatherapi.com/v1/current.json?key=${key}&q=${lat},${long}&aqi=no`
   }
 
-  state: any;
+ /** Przekazane dane z api */
+  state: Weather;
 
   constructor(private api: HttpClient) { }
 /**
@@ -58,8 +60,8 @@ export class LoginService {
    * @param key klucz WEATHER API
    * @returns strumień danych odpowiedzi z api
    */
-  getWeather(long: number, lat: number, key: string) {
-    return this.api.get<any>(this.routes.weatherApi(long, lat, key)
+  getWeather(long: number, lat: number, key: string): Observable<Weather> {
+    return this.api.get<Weather>(this.routes.weatherApi(long, lat, key)
     );
   }
 }
